@@ -1,6 +1,6 @@
 import { Redirect } from 'expo-router';
 
 export default function Index() {
-  // Always redirect to auth flow
+  // Redirect to the first screen
   return <Redirect href="/auth" />;
 } 

@@ -1,7 +1,7 @@
 import { View, Text, TextInput, StyleSheet, Pressable, Alert } from "react-native";
 import { useState } from "react";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -11,7 +11,22 @@ export default function SignIn() {
   const handleSignIn = () => {
     console.log("Email:", email);
     console.log("Password:", password);
-    Alert.alert("Signed in (test only)", `Welcome back!`);
+    
+    // For testing purposes - alert first, then redirect
+    Alert.alert(
+      "Signed in successfully", 
+      "Welcome back!", 
+      [
+        { 
+          text: "OK", 
+          onPress: () => {
+            // In a real app, you would set auth state first
+            // Redirect to the dashboard index
+            router.push("/dashboard");
+          }
+        }
+      ]
+    );
   };
 
   return (
