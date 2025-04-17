@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, Pressable, Alert } from "react-native";
+import { View, Text, TextInput, StyleSheet, Pressable, Alert, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { useState } from "react";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { Redirect, router } from "expo-router";
@@ -30,7 +30,11 @@ export default function SignIn() {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
+    >
       <Pressable style={styles.backButton} onPress={() => router.back()}>
         <AntDesign name="arrowleft" size={24} color="#fff" />
       </Pressable>
@@ -39,66 +43,73 @@ export default function SignIn() {
         {/* Illustration would be here */}
       </View>
 
-      <View style={styles.formContainer}>
-        <Text style={styles.inputLabel}>Email Adress</Text>
-        <TextInput
-          placeholder="sheva8228@mail.com"
-          placeholderTextColor="#aaa"
-          style={styles.input}
-          onChangeText={setEmail}
-          value={email}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        
-        <Text style={styles.inputLabel}>Password</Text>
-        <View style={styles.passwordInputContainer}>
+      <ScrollView 
+        style={styles.formContainerScroll}
+        contentContainerStyle={styles.formScrollContent}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+      >
+        <View style={styles.formContainer}>
+          <Text style={styles.inputLabel}>Email Adress</Text>
           <TextInput
-            placeholder="***************"
+            placeholder="sheva8228@mail.com"
             placeholderTextColor="#aaa"
-            style={[styles.input, { flex: 1, marginBottom: 0, paddingRight: 40 }]}
-            secureTextEntry={!showPassword}
-            onChangeText={setPassword}
-            value={password}
+            style={styles.input}
+            onChangeText={setEmail}
+            value={email}
+            keyboardType="email-address"
+            autoCapitalize="none"
           />
-          <Pressable onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
-            <FontAwesome
-              name={showPassword ? "eye-slash" : "eye"}
-              size={20}
-              color="#888"
+          
+          <Text style={styles.inputLabel}>Password</Text>
+          <View style={styles.passwordInputContainer}>
+            <TextInput
+              placeholder="***************"
+              placeholderTextColor="#aaa"
+              style={[styles.input, { flex: 1, marginBottom: 0, paddingRight: 40 }]}
+              secureTextEntry={!showPassword}
+              onChangeText={setPassword}
+              value={password}
             />
+            <Pressable onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
+              <FontAwesome
+                name={showPassword ? "eye-slash" : "eye"}
+                size={20}
+                color="#888"
+              />
+            </Pressable>
+          </View>
+          
+          <Pressable onPress={() => {}} style={styles.forgotPasswordContainer}>
+            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+          </Pressable>
+
+          <Pressable onPress={handleSignIn} style={styles.primaryButton}>
+            <Text style={styles.primaryButtonText}>Log In</Text>
+          </Pressable>
+
+          <Text style={styles.dividerText}>Or</Text>
+
+          <View style={styles.socialContainer}>
+            <Pressable style={styles.socialButton}>
+              <AntDesign name="google" size={24} color="#EA4335" />
+            </Pressable>
+            <Pressable style={styles.socialButton}>
+              <FontAwesome name="apple" size={24} color="#000" />
+            </Pressable>
+            <Pressable style={styles.socialButton}>
+              <FontAwesome name="facebook" size={24} color="#1877F2" />
+            </Pressable>
+          </View>
+
+          <Pressable onPress={() => router.replace("/auth/signup")}>
+            <Text style={styles.bottomText}>
+              Don't have an account? <Text style={styles.highlight}>Sign Up</Text>
+            </Text>
           </Pressable>
         </View>
-        
-        <Pressable onPress={() => {}} style={styles.forgotPasswordContainer}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-        </Pressable>
-
-        <Pressable onPress={handleSignIn} style={styles.primaryButton}>
-          <Text style={styles.primaryButtonText}>Log In</Text>
-        </Pressable>
-
-        <Text style={styles.dividerText}>Or</Text>
-
-        <View style={styles.socialContainer}>
-          <Pressable style={styles.socialButton}>
-            <AntDesign name="google" size={24} color="#EA4335" />
-          </Pressable>
-          <Pressable style={styles.socialButton}>
-            <FontAwesome name="apple" size={24} color="#000" />
-          </Pressable>
-          <Pressable style={styles.socialButton}>
-            <FontAwesome name="facebook" size={24} color="#1877F2" />
-          </Pressable>
-        </View>
-
-        <Pressable onPress={() => router.replace("/auth/signup")}>
-          <Text style={styles.bottomText}>
-            Don't have an account? <Text style={styles.highlight}>Sign Up</Text>
-          </Text>
-        </Pressable>
-      </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -120,16 +131,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   illustrationContainer: {
-    flex: 0.4,
+    height: "35%",
     alignItems: "center",
     justifyContent: "center",
   },
+  formContainerScroll: {
+    height: "65%",
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+  },
+  formScrollContent: {
+    flexGrow: 1,
+  },
   formContainer: {
-    flex: 0.6,
+    flex: 1,
     backgroundColor: "#fff",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 25,
+    paddingBottom: 40,
   },
   inputLabel: {
     fontSize: 14,
