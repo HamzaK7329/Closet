@@ -1,43 +1,41 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 export default function DashboardLayout() {
   return (
     <Tabs 
       screenOptions={{
-        tabBarActiveTintColor: "#FFCC33",
+        tabBarActiveTintColor: "#6A5ACD",
+        tabBarInactiveTintColor: "#999",
         headerStyle: {
-          backgroundColor: "#6A5ACD",
+          backgroundColor: "#fff",
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
         },
         headerShadowVisible: false,
-        headerTintColor: "#fff",
+        headerTintColor: "#333",
         tabBarStyle: {
           backgroundColor: "#fff",
-          borderTopWidth: 0,
-          elevation: 10,
-          shadowOpacity: 0.1,
-          shadowRadius: 20,
+          borderTopWidth: 1,
+          borderTopColor: "#eee",
+          height: 70,
+          paddingBottom: 10,
+          paddingTop: 5,
         },
+        tabBarShowLabel: false,
       }}
     >
       <Tabs.Screen 
         name="index" 
         options={{
-          title: "Closet",
-          headerTitle: "Acloset",
-          tabBarIcon: ({focused, color}) => (
-            <Ionicons name={focused ? "shirt" : "shirt-outline"} size={24} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen 
-        name="outfits" 
-        options={{
-          title: "Outfits",
-          headerTitle: "Outfits",
-          tabBarIcon: ({focused, color}) => (
-            <Ionicons name={focused ? "calendar" : "calendar-outline"} size={24} color={color} />
+          headerShown: false,
+          tabBarIcon: ({ focused, color }) => (
+            <View style={styles.tabIconContainer}>
+              <Ionicons name={focused ? "shirt" : "shirt-outline"} size={24} color={color} />
+              <Text style={[styles.tabLabel, { color }]}>Closet</Text>
+            </View>
           ),
         }}
       />
@@ -46,42 +44,60 @@ export default function DashboardLayout() {
         options={{
           title: "",
           headerShown: false,
-          tabBarIcon: ({focused, color}) => (
-            <Ionicons 
-              name="add-circle" 
-              size={56} 
-              color="#FFCC33" 
-              style={styles.addButton} 
-            />
+          tabBarIcon: ({ focused, color }) => (
+            <View style={styles.addButtonContainer}>
+              <Ionicons 
+                name="add" 
+                size={30} 
+                color="#fff" 
+              />
+            </View>
           ),
         }}
       />
       <Tabs.Screen 
-        name="preloved" 
+        name="feed" 
         options={{
-          title: "Preloved",
-          headerTitle: "Preloved",
-          tabBarIcon: ({focused, color}) => (
-            <Ionicons name={focused ? "heart" : "heart-outline"} size={24} color={color} />
+          headerTitle: "Feed",
+          tabBarIcon: ({ focused, color }) => (
+            <View style={styles.tabIconContainer}>
+              <Ionicons name={focused ? "newspaper" : "newspaper-outline"} size={24} color={color} /> 
+              <Text style={[styles.tabLabel, { color }]}>Feed</Text>
+            </View>
           ),
         }}
       />
-      <Tabs.Screen 
-        name="profile" 
-        options={{
-          title: "Profile",
-          headerTitle: "Profile",
-          tabBarIcon: ({focused, color}) => (
-            <Ionicons name={focused ? "person" : "person-outline"} size={24} color={color} />
-          ),
-        }}
-      />
+      <Tabs.Screen name="profile" options={{ href: null }} />
+      <Tabs.Screen name="outfits" options={{ href: null }} />
+      <Tabs.Screen name="preloved" options={{ href: null }} />
     </Tabs>
   );
 }
 
 const styles = StyleSheet.create({
-  addButton: {
-    bottom: 12,
+  addButtonContainer: {
+    backgroundColor: "#333",
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: "center",
+    alignItems: "center",
+    bottom: 25,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
+  },
+  tabIconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabLabel: {
+    fontSize: 10,
+    marginTop: 4,
   },
 }); 

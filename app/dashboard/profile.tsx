@@ -1,38 +1,30 @@
 import { View, Text, StyleSheet, Image, Pressable, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
-export default function ProfileScreen() {
+export default function SettingsScreen() {
+  const router = useRouter();
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
+        <Pressable style={styles.backButton} onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={24} color="#333" />
+        </Pressable>
+        <Text style={styles.headerTitle}>Settings</Text>
+        <View style={{ width: 24 }} />
+      </View>
+
+      <View style={styles.userInfoSection}>
         <Image 
           source={require('../../assets/images/icon.png')} 
           style={styles.profileImage} 
         />
         <Text style={styles.username}>chloe03</Text>
         <Text style={styles.email}>chloe03@example.com</Text>
-        
-        <View style={styles.statsContainer}>
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>128</Text>
-            <Text style={styles.statLabel}>Items</Text>
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>35</Text>
-            <Text style={styles.statLabel}>Outfits</Text>
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>8</Text>
-            <Text style={styles.statLabel}>Favorites</Text>
-          </View>
-        </View>
       </View>
       
       <View style={styles.menuSection}>
-        <Text style={styles.sectionTitle}>Settings</Text>
-        
         <Pressable style={styles.menuItem}>
           <Ionicons name="person-outline" size={24} color="#6A5ACD" style={styles.menuIcon} />
           <Text style={styles.menuText}>Account Settings</Text>
@@ -42,12 +34,6 @@ export default function ProfileScreen() {
         <Pressable style={styles.menuItem}>
           <Ionicons name="notifications-outline" size={24} color="#6A5ACD" style={styles.menuIcon} />
           <Text style={styles.menuText}>Notifications</Text>
-          <Ionicons name="chevron-forward" size={20} color="#999" />
-        </Pressable>
-        
-        <Pressable style={styles.menuItem}>
-          <Ionicons name="color-palette-outline" size={24} color="#6A5ACD" style={styles.menuIcon} />
-          <Text style={styles.menuText}>Appearance</Text>
           <Ionicons name="chevron-forward" size={20} color="#999" />
         </Pressable>
         
@@ -93,6 +79,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    paddingTop: 60,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  backButton: {
+    padding: 8,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  userInfoSection: {
     alignItems: 'center',
     paddingVertical: 30,
     paddingHorizontal: 20,
@@ -113,32 +116,7 @@ const styles = StyleSheet.create({
   email: {
     fontSize: 16,
     color: '#666',
-    marginBottom: 24,
-  },
-  statsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: 10,
-  },
-  statItem: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  statNumber: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  statLabel: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
-  },
-  statDivider: {
-    width: 1,
-    height: 30,
-    backgroundColor: '#eee',
+    marginBottom: 16,
   },
   menuSection: {
     paddingHorizontal: 16,
@@ -150,6 +128,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 16,
     paddingLeft: 8,
+    color: '#333',
   },
   menuItem: {
     flexDirection: 'row',
